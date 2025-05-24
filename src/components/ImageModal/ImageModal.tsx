@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import Modal from "react-modal";
 import s from "./ImageModal.module.css";
+import { ImageModalProps } from "./ImageModal.types";
 
 Modal.setAppElement("#root");
 
-const ImageModal = ({ isOpen, onClose, photo }) => {
+const ImageModal: React.FC<ImageModalProps> = ({ isOpen, onClose, photo }) => {
   useEffect(() => {
-    const handleEsc = (e) => {
+    const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onClose();
       }
@@ -29,10 +30,10 @@ const ImageModal = ({ isOpen, onClose, photo }) => {
         <img
           className={s.photo}
           src={photo.urls.regular}
-          alt={photo.alt_description}
+          alt={photo.alt_description || "Photo"}
         />
         <div className={s.description}>
-          {photo.description && <p>{photo.alt_description}</p>}
+          {photo.alt_description && <p>{photo.alt_description}</p>}
           <p>Author: {photo.user.name}</p>
           <p>Likes: {photo.likes}</p>
         </div>

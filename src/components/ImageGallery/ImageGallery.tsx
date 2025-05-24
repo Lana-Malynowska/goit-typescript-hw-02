@@ -1,7 +1,12 @@
 import ImageCard from "../ImageCard/ImageCard";
 import s from "./ImageGallery.module.css";
+import { ImageGalleryProps } from "./ImageGallery.types";
 
-const ImageGallery = ({ photos, onPhotoClick, galleryRef }) => {
+const ImageGallery: React.FC<ImageGalleryProps> = ({
+  photos,
+  onPhotoClick,
+  galleryRef,
+}) => {
   if (!photos || photos.length === 0) return null;
 
   return (
@@ -10,7 +15,7 @@ const ImageGallery = ({ photos, onPhotoClick, galleryRef }) => {
         <li key={photo.id}>
           <ImageCard
             src={photo.urls.small}
-            alt={photo.alt_description}
+            alt={photo.alt_description || "Image"}
             onClick={() => onPhotoClick(photo)}
           />
         </li>

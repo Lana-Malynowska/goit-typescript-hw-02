@@ -1,10 +1,14 @@
-import { Field, Form, Formik } from "formik";
-import toast, { Toaster } from "react-hot-toast";
-import * as Yup from "yup";
+import { Field, Form, Formik, FormikHelpers } from "formik";
+import toast from "react-hot-toast";
+import { SearchBarProps, SearchFormValues } from "./SearchBar.types";
+
 import s from "./SearchBar.module.css";
 
-const SearchBar = ({ onSubmit }) => {
-  const handleSubmit = (values, actions) => {
+const SearchBar: React.FC<SearchBarProps> = ({ onSubmit }) => {
+  const handleSubmit = (
+    values: SearchFormValues,
+    actions: FormikHelpers<SearchFormValues>
+  ) => {
     const trimmedQuery = values.query.trim();
 
     if (!trimmedQuery) {

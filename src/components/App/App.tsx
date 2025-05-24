@@ -1,25 +1,26 @@
 import { useEffect, useRef, useState } from "react";
-import { fetchPhotos } from "./services/api";
-import SearchBar from "./components/SearchBar/SearchBar";
-import ImageGallery from "./components/ImageGallery/ImageGallery";
-import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
-import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
+import { fetchPhotos } from "../../services/api";
+import SearchBar from "../SearchBar/SearchBar";
+import ImageGallery from "../ImageGallery/ImageGallery";
+import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { Toaster } from "react-hot-toast";
 import { RingLoader } from "react-spinners";
+import ImageModal from "../ImageModal/ImageModal";
 
 import "./App.css";
-import ImageModal from "./components/ImageModal/ImageModal";
+import { Photo } from "../../services/api.types";
 
 function App() {
-  const [photos, setPhotos] = useState([]);
-  const [query, setQuery] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const [error, setError] = useState(false);
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const galleryRef = useRef(null);
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [query, setQuery] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
+  const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const galleryRef = useRef<HTMLUListElement | null>(null);
 
   useEffect(() => {
     if (!query) return;
@@ -40,6 +41,7 @@ function App() {
         setLoading(false);
       }
     };
+
     getPhotos();
   }, [query, page]);
 
@@ -52,7 +54,7 @@ function App() {
     });
   }, [photos, page]);
 
-  const handleSearchSubmit = (searchQuery) => {
+  const handleSearchSubmit = (searchQuery: string) => {
     setQuery(searchQuery);
     setPage(1);
     setHasMore(true);
@@ -63,7 +65,7 @@ function App() {
     setPage((prevPage) => prevPage + 1);
   };
 
-  const handlePhotoClick = (photo) => {
+  const handlePhotoClick = (photo: Photo) => {
     setSelectedPhoto(photo);
     setIsModalOpen(true);
   };
@@ -89,7 +91,7 @@ function App() {
           />
           {loading && (
             <RingLoader
-              color="#646cffaa"
+              color="#646cff"
               size={50}
               cssOverride={{
                 margin: "0 auto",
